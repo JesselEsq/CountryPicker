@@ -14,4 +14,12 @@ struct Country: Codable {
     var capital: String
     var altSpellings: [String]
     var region: String
+    
+    func flagImageThumbURLString() -> String {
+        return "https://raw.githubusercontent.com/hampusborgos/country-flags/main/png250px/\(self.alpha2Code.lowercased()).png"
+    }
+    
+    func flagImageURLString() -> String {
+        return "https://raw.githubusercontent.com/hampusborgos/country-flags/main/png1000px/\(self.alpha2Code.lowercased()).png"
+    }
 }

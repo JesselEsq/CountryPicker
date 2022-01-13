@@ -32,6 +32,7 @@ class CountriesViewController: UIViewController, UITableViewDelegate, UITableVie
         countriesTableView.dataSource = self
         countriesTableView.register(CountryCell.nib(), forCellReuseIdentifier: CountryCell.nibName())
         countriesTableView.estimatedRowHeight = 80
+        countriesTableView.rowHeight = 80
     }
     
     
@@ -46,6 +47,7 @@ class CountriesViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         let country = countries[indexPath.row]
         cell.countryNameLabel.text = country.name
+        AppImageLoader().loadImage(for: cell.countryImageView, with: country.flagImageThumbURLString())
         return cell
     }
 
