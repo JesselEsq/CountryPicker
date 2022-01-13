@@ -26,11 +26,15 @@ class CountriesViewController: UIViewController {
     
     @objc
     private func fetchCountries() {
-        CountryAPI.getCountries(completionHandler: { [weak self] countries in
+        CountryAPI.getCountries(completionHandler: { [weak self] (countries, error) in
             DispatchQueue.main.async {
-                self?.refreshControl.endRefreshing()
-                self?.countries = countries
-                self?.countriesTableView.reloadData()
+                if let error = error {
+                    self?.showAlert(message: error.localizedDescription)
+                } else {
+                    self?.refreshControl.endRefreshing()
+                    self?.countries = countries
+                    self?.countriesTableView.reloadData()
+                }
             }
         })
     }
@@ -59,6 +63,12 @@ class CountriesViewController: UIViewController {
         } else {
             return countries[indexPath.row]
         }
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 
 }
