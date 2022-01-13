@@ -17,7 +17,6 @@ class CountryDetailViewController: UIViewController {
     @IBOutlet weak private var capitalLabel: UILabel!
     @IBOutlet weak private var alphaCodesLabel: UILabel!
     @IBOutlet weak private var callingCodesLabel: UILabel!
-    @IBOutlet weak private var altSpellingTitleLabel: UILabel!
     @IBOutlet weak private var altSpellingValuesLabel: UILabel!
     
     var country: Country?
@@ -56,8 +55,8 @@ class CountryDetailViewController: UIViewController {
         callingCodesLabel.attributedText = callingCodesString.countrify("CALLING CODE/S:")
         
         let altSpellings = (country.altSpellings.map{$0}).joined(separator: ", ")
-        altSpellingTitleLabel.text = "ALT SPELLINGS:"
-        altSpellingValuesLabel.text = "\(altSpellings)"
+        let altSpellingString = "ALT SPELLING/S: \(altSpellings)"
+        altSpellingValuesLabel.attributedText = altSpellingString.countrify("ALT SPELLING/S:")
     }
 }
 
