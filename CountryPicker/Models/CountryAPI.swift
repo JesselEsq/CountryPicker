@@ -14,7 +14,7 @@ struct CountryAPI {
             return
         }
         urlComponents.queryItems = [
-          URLQueryItem(name: "access_key", value: "59c905faee68e520e17ae32552a75982")
+          URLQueryItem(name: "access_key", value: "ab939abd42a33a724f7d5d7b4b812705")
         ]
         guard let componentUrl = urlComponents.url else {
             return
