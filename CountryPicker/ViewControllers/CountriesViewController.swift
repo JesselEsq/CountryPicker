@@ -9,16 +9,19 @@ import UIKit
 
 class CountriesViewController: UIViewController {
 
-    @IBOutlet weak var countriesTableView: UITableView!
-    
+    @IBOutlet weak private var countriesTableView: UITableView!
+    @IBOutlet weak private var searchBar: UISearchBar!
     private let refreshControl = UIRefreshControl()
     private var countries = [Country]()
+    private var filteredCountries = [Country]()
+    private var isSearching = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchCountries()
         setupTableView()
         setupRefreshControl()
+        setupSearchBar()
     }
     
     @objc
@@ -30,6 +33,10 @@ class CountriesViewController: UIViewController {
                 self?.countriesTableView.reloadData()
             }
         })
+    }
+    
+    private func setupSearchBar() {
+        searchBar.delegate = self
     }
     
     private func setupTableView() {
@@ -45,6 +52,14 @@ class CountriesViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(fetchCountries), for: .valueChanged)
         countriesTableView.refreshControl = refreshControl
     }
+    
+    private func getItem(_ indexPath: IndexPath) -> Country {
+        if isSearching {
+            return filteredCountries[indexPath.row]
+        } else {
+            return countries[indexPath.row]
+        }
+    }
 
 }
 
@@ -52,7 +67,7 @@ class CountriesViewController: UIViewController {
 extension CountriesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let country = countries[indexPath.row]
+        let country = getItem(indexPath)
         let countryDetail = CountryDetailViewController()
         countryDetail.country = country
         let navigationViewController = UINavigationController(rootViewController: countryDetail)
@@ -66,7 +81,7 @@ extension CountriesViewController: UITableViewDelegate {
 extension CountriesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
+        return isSearching ? filteredCountries.count : countries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,10 +89,37 @@ extension CountriesViewController: UITableViewDataSource {
         guard let cell = dequeuedCell as? CountryCell else {
             return UITableViewCell()
         }
-        let country = countries[indexPath.row]
+        let country = getItem(indexPath)
         cell.countryNameLabel.text = country.name
         AppImageLoader().loadImage(for: cell.countryImageView, with: country.flagImageThumbURLString())
+        
         return cell
+    }
+    
+}
+
+// MARK: - UITableViewDataSource
+extension CountriesViewController: UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSearching = false
+        filteredCountries.removeAll()
+        countriesTableView.reloadData()
+        return
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            isSearching = false
+            filteredCountries.removeAll()
+            countriesTableView.reloadData()
+            return
+        }
+        filteredCountries = countries.filter({
+            $0.name.lowercased().contains(searchText.lowercased())
+        })
+        isSearching = true
+        countriesTableView.reloadData()
     }
     
 }

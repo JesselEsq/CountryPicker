@@ -16,23 +16,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cgF-Ys-YGv">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Xpt-Xa-Kin">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="wTb-Of-Ebn">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cgF-Ys-YGv">
+                                        <rect key="frame" x="0.0" y="51" width="414" height="757"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="cgF-Ys-YGv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8c8-H1-vlx"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cgF-Ys-YGv" secondAttribute="bottom" id="ANd-U5-2U5"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cgF-Ys-YGv" secondAttribute="trailing" id="HfI-JE-GEM"/>
-                            <constraint firstItem="cgF-Ys-YGv" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LiW-JF-XEP"/>
+                            <constraint firstItem="Xpt-Xa-Kin" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="C6F-Df-8t5"/>
+                            <constraint firstItem="Xpt-Xa-Kin" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OiN-W2-t3w"/>
+                            <constraint firstItem="Xpt-Xa-Kin" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="OsV-cR-OwO"/>
+                            <constraint firstAttribute="bottom" secondItem="Xpt-Xa-Kin" secondAttribute="bottom" id="VDD-RX-rMi"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3aT-ng-ulN"/>
                     <connections>
                         <outlet property="countriesTableView" destination="cgF-Ys-YGv" id="QTV-VA-EKu"/>
+                        <outlet property="searchBar" destination="wTb-Of-Ebn" id="8qC-SL-ndC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
