@@ -29,18 +29,24 @@
                                     </tableView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="M0K-32-mUL">
+                                <rect key="frame" x="188.5" y="456.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Xpt-Xa-Kin" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="C6F-Df-8t5"/>
+                            <constraint firstItem="M0K-32-mUL" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ma4-lg-QL1"/>
                             <constraint firstItem="Xpt-Xa-Kin" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OiN-W2-t3w"/>
                             <constraint firstItem="Xpt-Xa-Kin" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="OsV-cR-OwO"/>
                             <constraint firstAttribute="bottom" secondItem="Xpt-Xa-Kin" secondAttribute="bottom" id="VDD-RX-rMi"/>
+                            <constraint firstItem="M0K-32-mUL" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="cfW-dG-TtR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3aT-ng-ulN"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="M0K-32-mUL" id="gXc-DS-ljh"/>
                         <outlet property="countriesTableView" destination="cgF-Ys-YGv" id="QTV-VA-EKu"/>
                         <outlet property="searchBar" destination="wTb-Of-Ebn" id="8qC-SL-ndC"/>
                     </connections>

@@ -11,6 +11,7 @@ class CountriesViewController: UIViewController {
 
     @IBOutlet weak private var countriesTableView: UITableView!
     @IBOutlet weak private var searchBar: UISearchBar!
+    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     private let refreshControl = UIRefreshControl()
     private var countries = [Country]()
     private var filteredCountries = [Country]()
@@ -18,25 +19,33 @@ class CountriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupActivityIndicator()
         fetchCountries()
         setupTableView()
         setupRefreshControl()
         setupSearchBar()
+        setupNavigationBar()
     }
     
     @objc
     private func fetchCountries() {
         CountryAPI.getCountries(completionHandler: { [weak self] (countries, error) in
             DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                self?.refreshControl.endRefreshing()
                 if let error = error {
                     self?.showAlert(message: error.localizedDescription)
                 } else {
-                    self?.refreshControl.endRefreshing()
                     self?.countries = countries
                     self?.countriesTableView.reloadData()
                 }
             }
         })
+    }
+    
+    private func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
     }
     
     private func setupSearchBar() {
@@ -67,8 +76,19 @@ class CountriesViewController: UIViewController {
     
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { [weak self] _ in
+            self?.activityIndicator.startAnimating()
+            self?.fetchCountries()
+        }))
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func setupNavigationBar() {
+        let logo = UIImage(named: "logo.png")
+        let imageView = UIImageView(image:logo)
+        imageView.contentMode = .scaleAspectFit
+        self.navigationItem.titleView = imageView
     }
 
 }
@@ -91,10 +111,20 @@ extension CountriesViewController: UITableViewDelegate {
 extension CountriesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isSearching ? filteredCountries.count : countries.count
+        if isSearching {
+            return filteredCountries.count
+        } else {
+            return countries.isEmpty ? 1 : countries.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !countries.isEmpty else {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+            cell.textLabel?.text = "List is empty. Please try again."
+            cell.textLabel?.textAlignment = .center
+            return cell
+        }
         let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: CountryCell.nibName())
         guard let cell = dequeuedCell as? CountryCell else {
             return UITableViewCell()
