@@ -9,11 +9,6 @@ import Foundation
 
 struct CountryAPI {
     
-    func getCountries() {
-        let param = ["access_key": "59c905faee68e520e17ae32552a75982"]
-        
-    }
-    
     static func getCountries(completionHandler: @escaping ([Country]) -> Void) {
         let urlComponents = NSURLComponents(string: "http://api.countrylayer.com/v2/all")!
 

@@ -50,6 +50,15 @@ class CountriesViewController: UIViewController, UITableViewDelegate, UITableVie
         AppImageLoader().loadImage(for: cell.countryImageView, with: country.flagImageThumbURLString())
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let country = countries[indexPath.row]
+        let countryDetail = CountryDetailViewController()
+        countryDetail.country = country
+        let navigationViewController = UINavigationController(rootViewController: countryDetail)
+        navigationViewController.navigationBar.isHidden = false
+        navigationController?.pushViewController(countryDetail, animated: true)
+    }
 
 }
 
